@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cpoulain <cpoulain@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:07:20 by cpoulain          #+#    #+#             */
-/*   Updated: 2024/10/24 16:43:06 by cpoulain         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:52:23 by cpoulain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		*(char *)dest++ = *(char *)src++;
 	return ((void *)((char *)dest - i));
 }
+
 size_t	ft_strlen(const char *s)
 {
 	const char	*org = s;

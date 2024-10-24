@@ -6,7 +6,7 @@
 /*   By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:02:04 by cpoulain          #+#    #+#             */
-/*   Updated: 2024/10/24 16:46:47 by cpoulain         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:55:51 by cpoulain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@
 
 /* Static declarations */
 
-static char	*_read_from_fd_to_line(int fd, char *buffer);
-static char	*_process_leftover_buffer(char *buffer);
-static void	_process_buffer_into_line(char **line, char *buffer);
+char	*_read_from_fd_to_line(int fd, char *buffer);
+char	*_process_leftover_buffer(char *buffer);
+void	_process_buffer_into_line(char **line, char *buffer);
 
 /* get_next_line */
 
 char	*get_next_line(int fd)
 {
-	static char	fd_buffers[FD_LIMIT][BUFFER_SIZE + 1] = {0};
+	static char	fd_buffers[BUFFER_SIZE + 1] = {0};
 	char		*line;
 
-	line = _read_from_fd_to_line(fd, fd_buffers[fd]);
+	if (fd < 0 || BUFFER_SIZE < 0)
+		return (NULL);
+	line = _read_from_fd_to_line(fd, fd_buffers);
 	if (line == NULL)
 		return (NULL);
 	if (ft_strlen(line) == 0)
@@ -37,7 +39,7 @@ char	*get_next_line(int fd)
 
 /* Static implementation */
 
-static void	_process_buffer_into_line(char **line, char *buffer)
+void	_process_buffer_into_line(char **line, char *buffer)
 {
 	char	*nl_pos;
 	size_t	remaining_buffer;
@@ -66,7 +68,7 @@ static void	_process_buffer_into_line(char **line, char *buffer)
 	buffer[remaining_buffer] = '\0';
 }
 
-static char	*_process_leftover_buffer(char *buffer)
+char	*_process_leftover_buffer(char *buffer)
 {
 	char	*line;
 	size_t	line_size;
@@ -85,7 +87,7 @@ static char	*_process_leftover_buffer(char *buffer)
 	return (line);
 }
 
-static char	*_read_from_fd_to_line(int fd, char *buffer)
+char	*_read_from_fd_to_line(int fd, char *buffer)
 {
 	char	*line;
 	long	byte_read;

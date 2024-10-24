@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cpoulain <cpoulain@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:02:04 by cpoulain          #+#    #+#             */
-/*   Updated: 2024/10/24 15:55:26 by cpoulain         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:50:31 by cpoulain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 /* Static declarations */
 
-static char	*_read_from_fd_to_line(int fd, char *buffer);
-static char	*_process_leftover_buffer(char *buffer);
-static void	_process_buffer_into_line(char **line, char *buffer);
+char	*_read_from_fd_to_line(int fd, char *buffer);
+char	*_process_leftover_buffer(char *buffer);
+void	_process_buffer_into_line(char **line, char *buffer);
 
 /* get_next_line */
 
@@ -27,12 +27,10 @@ char	*get_next_line(int fd)
 	static char	fd_buffers[FD_LIMIT][BUFFER_SIZE + 1] = {0};
 	char		*line;
 
-	if (fd < 0 || read(fd, 0, 0) < 0)
-	{
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
-	}
 	line = _read_from_fd_to_line(fd, fd_buffers[fd]);
-	if (!line)
+	if (line == NULL)
 		return (NULL);
 	if (ft_strlen(line) == 0)
 		return (free(line), NULL);
@@ -41,7 +39,7 @@ char	*get_next_line(int fd)
 
 /* Static implementation */
 
-static void	_process_buffer_into_line(char **line, char *buffer)
+void	_process_buffer_into_line(char **line, char *buffer)
 {
 	char	*nl_pos;
 	size_t	remaining_buffer;
@@ -70,17 +68,17 @@ static void	_process_buffer_into_line(char **line, char *buffer)
 	buffer[remaining_buffer] = '\0';
 }
 
-static char	*_process_leftover_buffer(char *buffer)
+char	*_process_leftover_buffer(char *buffer)
 {
 	char	*line;
-	int		line_size;
+	size_t	line_size;
 
 	line = ft_strchr(buffer, '\n');
 	if (line == NULL)
 		line = ft_strchr(buffer, '\0');
 	line_size = line - buffer + (*line == '\n');
-	line = malloc(line_size + 1);
-	if (!line)
+	line = (char *) malloc(line_size + 1);
+	if (line == NULL)
 		return (NULL);
 	ft_memcpy(line, buffer, line_size);
 	line[line_size] = '\0';
@@ -89,13 +87,13 @@ static char	*_process_leftover_buffer(char *buffer)
 	return (line);
 }
 
-static char	*_read_from_fd_to_line(int fd, char *buffer)
+char	*_read_from_fd_to_line(int fd, char *buffer)
 {
 	char	*line;
 	long	byte_read;
 
 	line = _process_leftover_buffer(buffer);
-	if (!line)
+	if (line == NULL)
 		return (NULL);
 	while (!ft_strchr(line, '\n'))
 	{
@@ -106,7 +104,7 @@ static char	*_read_from_fd_to_line(int fd, char *buffer)
 		if (byte_read == 0 || ft_strchr(buffer, '\n'))
 			return (_process_buffer_into_line(&line, buffer), line);
 		ft_strcat(&line, buffer);
-		if (!line)
+		if (line == NULL)
 			return (NULL);
 	}
 	return (line);

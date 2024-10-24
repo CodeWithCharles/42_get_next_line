@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cpoulain <cpoulain@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:07:20 by cpoulain          #+#    #+#             */
-/*   Updated: 2024/10/24 14:46:58 by cpoulain         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:52:27 by cpoulain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,9 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s)
-	{
-		if (*(t_uchar *)s == (t_uchar)c)
-			return ((char *)s);
+	while (*s != '\0' && *s != c)
 		++s;
-	}
-	if (*(t_uchar *)s == (t_uchar)c)
+	if (*s != '\0' || c == '\0')
 		return ((char *)s);
 	return (NULL);
 }
@@ -33,15 +29,10 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
 
-	if (!dest && !src)
-		return (NULL);
 	i = 0;
-	while (i < n)
-	{
-		((t_byte *)dest)[i] = ((t_byte *)src)[i];
-		i++;
-	}
-	return (dest);
+	while (i++ < n)
+		*(char *)dest++ = *(char *)src++;
+	return ((void *)((char *)dest - i));
 }
 
 size_t	ft_strlen(const char *s)
