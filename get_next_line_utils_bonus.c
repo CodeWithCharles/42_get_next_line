@@ -6,13 +6,13 @@
 /*   By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:07:20 by cpoulain          #+#    #+#             */
-/*   Updated: 2024/10/24 17:52:27 by cpoulain         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:13:53 by cpoulain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* Includes */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 /* Utils implementations */
 
